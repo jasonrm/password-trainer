@@ -53,7 +53,13 @@ while [[ true ]]; do
     read -s CURRENT
     echo -e "${Color_Off}"
 
-    if [[ $ORIGINAL == $CURRENT ]]; then
+    if [[ -z $CURRENT ]]; then
+        clear
+        echo -e "${Purple}     reset${Color_Off} (+${Green}${CORRECT_COUNTER}${Color_Off} -${Red}${INCORRECT_COUNTER}${Color_Off})"
+        CORRECT_COUNTER=0
+        INCORRECT_COUNTER=0
+        unset MASKED
+    elif [[ $ORIGINAL == $CURRENT ]]; then
         CORRECT_COUNTER=$[CORRECT_COUNTER + 1]
         echo -e "${Green} correct${Color_Off} (+${Green}${CORRECT_COUNTER}${Color_Off} -${Red}${INCORRECT_COUNTER}${Color_Off})"
         _maskAdditionalCharacter
@@ -62,6 +68,5 @@ while [[ true ]]; do
         echo -e "${Red}incorrect${Color_Off} (+${Green}${CORRECT_COUNTER}${Color_Off} -${Red}${INCORRECT_COUNTER}${Color_Off})"
         _unmaskCharacter
     fi
-    echo ""
     echo ""
 done
